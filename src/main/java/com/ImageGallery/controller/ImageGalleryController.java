@@ -19,7 +19,7 @@ public class ImageGalleryController {
     ImageGalleryService imagegalleryService;
 
     @DeleteMapping(path = "/images/{id}")
-     public String deleteTutorial(@PathVariable int id) {
+     public String deleteImageGallery(@PathVariable int id) {
           return imagegalleryService.deleteImageGallery(id);
      }
 
