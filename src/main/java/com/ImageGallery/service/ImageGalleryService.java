@@ -1,6 +1,7 @@
 package com.ImageGallery.service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,15 @@ public class ImageGalleryService {
 
     public String deleteImageGallery(int id) {
         try {
-            if (iImageGalleryRepository.existsById(id)) {
+            Optional<ImageGallery> imageGallery = iImageGalleryRepository.findById(id);
+            if (imageGallery.isPresent()) {
                 iImageGalleryRepository.deleteById(id);
                 return "You have deleted the image with ID: " + id;
             } else {
                 return "The image with ID: " + id + " does not exist.";
             }
         } catch (Exception e) {
-            return "An error occurred while trying to delete the image with ID: " + id;
+            return "An unexpected error occurred while trying to delete the image with ID: " + id;
         }
     }
 
