@@ -1,24 +1,30 @@
 package com.ImageGallery;
 
+import com.ImageGallery.service.ImageGalleryService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import static org.junit.jupiter.api.Assertions.*;
 
+class ImageGalleryServiceTest {
 
-@SpringBootTest
-public class TestDeleteController {
-    @Autowired
-    private MockMvc mockMvc;
+    private final ImageGalleryService imageGalleryService = new ImageGalleryService();
 
     @Test
-    public void test_Delete_Image_Gallery() throws Exception {
-        int imageId = 1; // ID of the image to delete
+    public void testDeleteImageGallery_existingImage_shouldDelete() {
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/images/" + imageId))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("Image successfully deleted"));
+        int existingImageId = 123;
+
+        String result = imageGalleryService.deleteImageGallery(existingImageId);
+
+        assertEquals("You have deleted the image with ID: " + existingImageId, result);
+    }
+
+    @Test
+    public void testDeleteImageGallery_nonExistingImage_shouldReturnErrorMessage() {
+
+        int nonExistingImageId = 456;
+
+        String result = imageGalleryService.deleteImageGallery(nonExistingImageId);
+
+        assertEquals("The image with ID: " + nonExistingImageId + " does not exist.", result);
     }
 }
