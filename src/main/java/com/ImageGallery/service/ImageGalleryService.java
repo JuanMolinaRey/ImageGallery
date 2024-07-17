@@ -39,4 +39,9 @@ public class ImageGalleryService {
         return (ArrayList<ImageGallery>) iImageGalleryRepository.findAll();
     }
 
+    public ImageGallery createImageGallery(ImageGallery image, int id) {
+        image.setId(id);
+        return iImageGalleryRepository.save(image);
+    }
+
 }

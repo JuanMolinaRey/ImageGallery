@@ -3,6 +3,7 @@ package com.ImageGallery.controller;
 
 import java.util.ArrayList;
 
+import com.ImageGallery.repository.IImageGalleryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,10 @@ public class ImageGalleryController {
      @GetMapping(path = "/images/{id}")
     public ArrayList<ImageGallery> getAllImageGallery() {
         return imagegalleryService.getAllImageGallery();
+    }
+
+    public ImageGallery createImageGallery(ImageGallery image, int id) {
+        image.setId(id);
+        return imagegalleryService.createImageGallery(image, id);
     }
 }
