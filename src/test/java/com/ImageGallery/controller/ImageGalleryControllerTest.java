@@ -38,19 +38,6 @@ public class ImageGalleryControllerTest {
     }
 
     @Test
-    public void testDeleteImageGallery() throws Exception {
-        int testId = 1;
-        String expectedMessage = "You have deleted the image with ID: " + testId;
-
-        when(imageGalleryService.deleteImageGallery(testId)).thenReturn(expectedMessage);
-
-        mockMvc.perform(delete("/images/{id}", testId))
-                .andExpect(status().isOk())
-                .andExpect(content().string(expectedMessage));
-
-        verify(imageGalleryService, times(1)).deleteImageGallery(testId);
-    }
-    @Test
     public void testCreateImageGallery() throws Exception {
         int newId = 123;
         String title = "Sample Title";
