@@ -65,4 +65,4 @@ Documentation and Demo: Prepare documentation and a functional demonstration for
 Project development URL: Kanban- JIRA: https://romerobellorini.atlassian.net/jira/software/projects/IGJ/boards/2 
 Pseudocode-MIRO: https://miro.com/app/board/uXjVK2Cv234=/
 
-![ImageGalleryPseudoCode](Image Gallery.jpg)
+![ImageGalleryPseudoCode](https://github.com/JuanMolinaRey/ImageGallery/blob/main/Image%20Gallery.jpg?raw=true)
