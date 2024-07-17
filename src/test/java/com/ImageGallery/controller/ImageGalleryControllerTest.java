@@ -49,7 +49,7 @@ public class ImageGalleryControllerTest {
                 .andExpect(content().string(expectedMessage));
 
         verify(imageGalleryService, times(1)).deleteImageGallery(testId);
-
+    }
     @Test
     public void testCreateImageGallery() throws Exception {
         int newId = 123;
