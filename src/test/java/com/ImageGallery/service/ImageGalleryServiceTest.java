@@ -27,7 +27,22 @@ public class ImageGalleryServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        imageGallery = new ImageGallery();
+        imageGallery.setId((long) 11L);
+        imageGallery.setTitle("Las chicas superpoderosas");
+        imageGallery.setDescription("Bombon, burbuja y bellota");
+        imageGallery.setUrl("https://cartoonnetwork.fandom.com/es/wiki/Las_Chicas_Superpoderosas");
     }
+
+    @Test
+    void createImageGallery() {
+        when(imageGalleryRepository.save(any(ImageGallery.class))).thenReturn(imageGallery);
+
+        ImageGallery createdImageGallery = imageGalleryService.createImageGallery(imageGallery);
+
+        verify(imageGalleryRepository).save(imageGallery);
+    }
+
 
     /*@Test
     public void testDeleteImageGallery_WhenImageExists() {
