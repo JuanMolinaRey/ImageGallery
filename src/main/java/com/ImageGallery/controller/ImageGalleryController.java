@@ -16,7 +16,7 @@ public class ImageGalleryController {
 
     @DeleteMapping(path = "/images/{id}")
      public String deleteImageGallery(@PathVariable int id) {
-          return imagegalleryService.deleteImageGallery(id);
+          return imagegalleryService.deleteImageGallery( id);
      }
 
      @PutMapping (path = "/images/{id}")
