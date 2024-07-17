@@ -15,8 +15,6 @@ public class ImageGalleryService {
     @Autowired
     private IImageGalleryRepository iImageGalleryRepository;
 
-<<<<<<< HEAD
-=======
     public String deleteImageGallery(int id) {
         try {
             Optional<ImageGallery> imageGallery = iImageGalleryRepository.findById(id);
@@ -36,7 +34,6 @@ public class ImageGalleryService {
         iImageGalleryRepository.save(image);
 
     }
->>>>>>> dev
 
     public ArrayList<ImageGallery> getAllImageGallery() {
         return (ArrayList<ImageGallery>) iImageGalleryRepository.findAll();
