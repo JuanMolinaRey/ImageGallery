@@ -13,13 +13,8 @@ public class ImageGalleryService {
     @Autowired
     static IImageGalleryRepository iImageGalleryRepository;
 
-    public String deleteImageGallery(int id) {
-        try {
-            iImageGalleryRepository.deleteById(id);
-            return "You have deleted the image with ID: " + id;
-        } catch (Exception e) {
-            return "An unexpected error occurred while trying to delete the image with ID: " + id;
-        }
+    public void deleteImageGallery(int id) {
+        iImageGalleryRepository.deleteById(id);
     }
 
     public void updateImageGallery(ImageGallery image, int id) {
