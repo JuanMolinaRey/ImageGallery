@@ -1,13 +1,8 @@
 package com.ImageGallery.controller;
 
-
 import java.util.ArrayList;
-
-import com.ImageGallery.repository.IImageGalleryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.*;
-
 import com.ImageGallery.model.ImageGallery;
 import com.ImageGallery.service.ImageGalleryService;
 
@@ -25,8 +20,11 @@ public class ImageGalleryController {
         return imagegalleryService.getAllImageGallery();
     }
 
-    public ImageGallery createImageGallery(ImageGallery image, int id) {
+    @PostMapping("/createImageGallery")
+    public ImageGallery createImageGallery(@RequestBody ImageGallery image, @RequestParam int id,
+                                           @RequestParam String title, @RequestParam String description,
+                                           @RequestParam String url) {
         image.setId(id);
-        return imagegalleryService.createImageGallery(image, id);
+        return ImageGalleryService.createImageGallery(image, id, title, description, url);
     }
 }
