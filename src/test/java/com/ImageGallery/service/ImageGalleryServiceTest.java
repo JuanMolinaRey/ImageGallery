@@ -11,6 +11,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.repository.CrudRepository;
 
 import com.ImageGallery.model.ImageGallery;
 import com.ImageGallery.repository.IImageGalleryRepository;
@@ -27,7 +28,7 @@ public class ImageGalleryServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        imageGallery = new ImageGallery();
+        ImageGallery imageGallery = new ImageGallery();
         imageGallery.setId((long) 11L);
         imageGallery.setTitle("Las chicas superpoderosas");
         imageGallery.setDescription("Bombon, burbuja y bellota");
@@ -35,7 +36,7 @@ public class ImageGalleryServiceTest {
     }
 
     @Test
-    void createImageGallery() {
+    void createImageGallery(CrudRepository<ImageGallery, Integer> imageGalleryRepository) {
         when(imageGalleryRepository.save(any(ImageGallery.class))).thenReturn(imageGallery);
 
         ImageGallery createdImageGallery = imageGalleryService.createImageGallery(imageGallery);
