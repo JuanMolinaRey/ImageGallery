@@ -78,6 +78,6 @@ public class ImageGalleryControllerTest {
                 .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(list)))
                 .andDo(MockMvcResultHandlers.print());
     }
-
+    
    
 }

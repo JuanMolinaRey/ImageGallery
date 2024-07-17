@@ -1,18 +1,22 @@
 package com.ImageGallery.service;
 
-import com.ImageGallery.model.ImageGallery;
-import com.ImageGallery.repository.IImageGalleryRepository;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+
+import com.ImageGallery.model.ImageGallery;
+import com.ImageGallery.repository.IImageGalleryRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class ImageGalleryServiceTest {
@@ -74,7 +78,7 @@ public class ImageGalleryServiceTest {
 
         when(iImageGalleryRepository.save(any(ImageGallery.class))).thenReturn(imageToSave);
 
-        ImageGallery createdImage = imageGalleryService.createImageGallery(new ImageGallery(), id, title, description, url);
+        ImageGallery createdImage = imageGalleryService.createImageGallery(new ImageGallery());
 
         assertEquals(id, createdImage.getId());
         assertEquals(title, createdImage.getTitle());

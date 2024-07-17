@@ -42,10 +42,14 @@ public class ImageGalleryService {
     @Autowired
     private IImageGalleryRepository IImageGalleryRepository;
 
-    public static ImageGallery createImageGallery(ImageGallery image, int id, String title, String description, String url) {
+    public static ImageGallery createImageGallery(ImageGallery image) {
+        int id = 0;
         image.setId(id);
+        String title = null;
         image.setTitle(title);
+        String description = null;
         image.setDescription(description);
+        String url = null;
         image.setUrl(url);
         return iImageGalleryRepository.save(image);
     }
