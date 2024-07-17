@@ -32,4 +32,4 @@ public class ImageGalleryController {
     public ArrayList<ImageGallery> getAllImageGallery() {
         return imagegalleryService.getAllImageGallery();
     }
-}
+}git
