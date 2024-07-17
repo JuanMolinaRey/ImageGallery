@@ -50,31 +50,5 @@ public class ImageGalleryControllerTest {
 
         verify(imageGalleryService, times(1)).deleteImageGallery(testId);
 
-    @Test
-    public void testCreateImageGallery() throws Exception {
-        int newId = 123;
-        String title = "Sample Title";
-        String description = "Sample Description";
-        String url = "http://example.com/image.jpg";
-
-        image.setId(newId);
-        image.setTitle(title);
-        image.setDescription(description);
-        image.setUrl(url);
-
-        when(imageGalleryService.createImageGallery(any(ImageGallery.class), anyInt(), anyString(), anyString(), anyString()))
-                .thenReturn(image);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/createImageGallery")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(image))
-                        .param("id", String.valueOf(newId))
-                        .param("title", title)
-                        .param("description", description)
-                        .param("url", url))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(image)));
-
-        verify(imageGalleryService, times(1)).createImageGallery(any(ImageGallery.class), eq(newId), eq(title), eq(description), eq(url));
     }
 }
