@@ -1,6 +1,7 @@
 package com.ImageGallery.controller;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.ImageGallery.model.ImageGallery;
@@ -38,18 +39,16 @@ public class ImageGalleryControllerTest {
 
     @Test
     public void testDeleteImageGallery() throws Exception {
-        int id = 1;
-        String expectedResponse = "Image gallery deleted";
+        int testId = 1;
+        String expectedMessage = "You have deleted the image with ID: " + testId;
 
-        when(imageGalleryService.deleteImageGallery(id)).thenReturn(expectedResponse);
+        when(imageGalleryService.deleteImageGallery(testId)).thenReturn(expectedMessage);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/deleteImageGallery")
-                        .param("id", String.valueOf(id)))
+        mockMvc.perform(delete("/images/{id}", testId))
                 .andExpect(status().isOk())
-                .andExpect(content().string(expectedResponse));
+                .andExpect(content().string(expectedMessage));
 
-        verify(imageGalleryService, times(1)).deleteImageGallery(id);
-    }
+        verify(imageGalleryService, times(1)).deleteImageGallery(testId);
 
     @Test
     public void testCreateImageGallery() throws Exception {
