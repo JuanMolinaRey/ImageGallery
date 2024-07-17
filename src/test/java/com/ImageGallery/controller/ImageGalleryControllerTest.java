@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-@ExtendWith({SpringExtension.class, MockitoExtension.class})
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(ImageGalleryController.class)
 public class ImageGalleryControllerTest {
 
@@ -29,21 +29,33 @@ public class ImageGalleryControllerTest {
     private ImageGalleryController imageGalleryController;
 
     @BeforeEach
-    public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(imageGalleryController).build();
+    public void setUp(WebApplicationContext webApplicationContext) {
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(imageGalleryController)
+                .build();
     }
 
     @Test
-    public void testDeleteImageGallery() throws Exception {
+    public void testDeleteImageGallery_Success() throws Exception {
         int imageId = 1;
-        String expectedResponse = "Image deleted successfully";
+        String expectedResponse = "You have deleted the image with ID: " + imageId;
 
         when(imageGalleryService.deleteImageGallery(imageId)).thenReturn(expectedResponse);
 
         mockMvc.perform(delete("/api/images/{id}", imageId))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expectedResponse));
+    }
 
-        verify(imageGalleryService).deleteImageGallery(imageId);
+    @Test
+    public void testDeleteImageGallery_Failure() throws Exception {
+        int imageId = 2;
+        String expectedResponse = "No image found with ID: " + imageId;
+
+        when(imageGalleryService.deleteImageGallery(imageId)).thenReturn(expectedResponse);
+
+        mockMvc.perform(delete("/api/images/{id}", imageId))
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedResponse));
     }
 }
