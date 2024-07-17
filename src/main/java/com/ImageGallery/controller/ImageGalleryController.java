@@ -34,6 +34,7 @@ public class ImageGalleryController {
         return imagegalleryService.getAllImageGallery();
     }
 
+    @PostMapping
     public ImageGallery createImageGallery(ImageGallery image, int id) {
         image.setId(id);
         return imagegalleryService.createImageGallery(image, id);
