@@ -9,13 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ImageGalleryServiceTest {
@@ -64,14 +61,26 @@ public class ImageGalleryServiceTest {
 
     @Test
     public void testCreateImageGallery() {
-        int newId = 123;
-        ImageGallery image = new ImageGallery();
-        image.setId(newId);
+        int id = 123;
+        String title = "Sample Title";
+        String description = "Sample Description";
+        String url = "http://example.com/image.jpg";
 
-        when(iImageGalleryRepository.save(any(ImageGallery.class))).thenReturn(image);
+        ImageGallery imageToSave = new ImageGallery();
+        imageToSave.setId(id);
+        imageToSave.setTitle(title);
+        imageToSave.setDescription(description);
+        imageToSave.setUrl(url);
 
-        ImageGallery createdImage = imageGalleryService.createImageGallery(new ImageGallery(), newId);
+        when(iImageGalleryRepository.save(any(ImageGallery.class))).thenReturn(imageToSave);
 
-        assertEquals(newId, createdImage.getId());
+        ImageGallery createdImage = imageGalleryService.createImageGallery(new ImageGallery(), id, title, description, url);
+
+        assertEquals(id, createdImage.getId());
+        assertEquals(title, createdImage.getTitle());
+        assertEquals(description, createdImage.getDescription());
+        assertEquals(url, createdImage.getUrl());
+
+        verify(iImageGalleryRepository).save(any(ImageGallery.class));
     }
 }
