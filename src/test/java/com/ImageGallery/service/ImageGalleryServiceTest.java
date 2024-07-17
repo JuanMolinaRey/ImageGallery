@@ -4,52 +4,40 @@ import com.ImageGallery.model.ImageGallery;
 import com.ImageGallery.repository.IImageGalleryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class ImageGalleryServiceTest {
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+
+class ImageGalleryServiceTest {
+
+    @Mock
+    private IImageGalleryRepository imageGalleryRepository;
 
     @InjectMocks
     private ImageGalleryService imageGalleryService;
 
-    @Mock
-    private IImageGalleryRepository iImageGalleryRepository;
+    private ImageGallery imageGallery;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
+        imageGallery = new ImageGallery();
+        imageGallery.setId((long) 11L);
+        imageGallery.setTitle("Las chicas superpoderosas");
+        imageGallery.setDescription("Bombon, burbuja y bellota");
+        imageGallery.setUrl("https://cartoonnetwork.fandom.com/es/wiki/Las_Chicas_Superpoderosas");
     }
 
     @Test
-    public void testCreateImageGallery() {
-        int id = 123;
-        String title = "Sample Title";
-        String description = "Sample Description";
-        String url = "http://example.com/image.jpg";
+    void createImageGallery() {
+        when(imageGalleryRepository.save(any(ImageGallery.class))).thenReturn(imageGallery);
 
-        ImageGallery imageToSave = new ImageGallery();
-        imageToSave.setId(id);
-        imageToSave.setTitle(title);
-        imageToSave.setDescription(description);
-        imageToSave.setUrl(url);
+        ImageGallery createdImageGallery = imageGalleryService.createImageGallery(imageGallery);
 
-        when(iImageGalleryRepository.save(any(ImageGallery.class))).thenReturn(imageToSave);
-
-        ImageGallery createdImage = imageGalleryService.createImageGallery(new ImageGallery(), id, title, description, url);
-
-        assertEquals(id, createdImage.getId());
-        assertEquals(title, createdImage.getTitle());
-        assertEquals(description, createdImage.getDescription());
-        assertEquals(url, createdImage.getUrl());
-
-        verify(iImageGalleryRepository).save(any(ImageGallery.class));
+        verify(imageGalleryRepository).save(imageGallery);
     }
 }

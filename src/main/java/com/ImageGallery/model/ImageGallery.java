@@ -11,13 +11,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-@Table
+@Table(name = "image_gallery")
 public class ImageGallery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "id")
     private int id;
 
@@ -30,4 +28,7 @@ public class ImageGallery {
     @Column(name = "url")
     private String url;
 
+    public static void setId(Long aLong) {
+
+    }
 }
