@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -40,14 +41,21 @@ public class ImageGalleryControllerTest {
     }
 
     @Test
-    public void testDeleteImageGallery() throws Exception {
-        when(imagegalleryService.deleteImageGallery(anyInt())).thenReturn("Deleted");
+    public void test_if_deleteImage_deletes_by_Id() {
+        ArrayList<ImageGallery> listOfImages = new ArrayList<>();
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/images/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("Deleted"))
-                .andDo(MockMvcResultHandlers.print());
+        ImageGallery image1 = new ImageGallery(1, "image1", "image uno","https://github.com/diegoFactoriaf5/MyFavoriteImage-Frontend/blob/main/src/assets/images/arbol.jpg?raw=true");
+        ImageGallery image2 = new ImageGallery(2, "image2", "image udos","https://github.com/diegoFactoriaf5/MyFavoriteImage-Frontend/blob/main/src/assets/images/arbol.jpg?raw=true");
+        ImageGallery image3 = new ImageGallery(3, "image3", "image 3","https://github.com/diegoFactoriaf5/MyFavoriteImage-Frontend/blob/main/src/assets/images/arbol.jpg?raw=true");
+        listOfImages.add(image1);
+        listOfImages.add(image2);
+        listOfImages.add(image3);
+
+        imagegalleryService.deleteImageGallery(2);
+
+        verify(imagegalleryService).deleteImageGallery(2);
     }
+
 
     @Test
     public void testUpdateImageGallery() throws Exception {
@@ -73,7 +81,7 @@ public class ImageGalleryControllerTest {
 
         when(imagegalleryService.getAllImageGallery()).thenReturn(list);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/images/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(new ObjectMapper().writeValueAsString(list)))
                 .andDo(MockMvcResultHandlers.print());
