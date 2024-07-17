@@ -41,6 +41,6 @@ public class ImageGalleryControllerTest {
 			mock("/images/{id}", id);
 
 			// Assert
-			verify(imageGalleryController).updateImageGallery(imageGallery, id);
+			verify(imageGalleryController).updateImageGallery(imageGallery, id," title", "description", "url");
 		}
 	}

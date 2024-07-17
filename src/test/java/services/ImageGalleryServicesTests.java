@@ -39,7 +39,7 @@ public class ImageGalleryServicesTests {
         imageGallery.setUrl("http://updated.url");
 
         // Act
-        imageGalleryService.updateImageGallery(imageGallery, id);
+        imageGalleryService.updateImageGallery(imageGallery, id, "title", "description", "url");
 
         // Assert
         assertEquals(id, imageGallery.getId());

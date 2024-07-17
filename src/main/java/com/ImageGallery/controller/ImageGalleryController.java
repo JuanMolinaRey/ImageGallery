@@ -18,18 +18,10 @@ public class ImageGalleryController {
     @Autowired
     ImageGalleryService imagegalleryService;
 
-    @DeleteMapping(path = "/images/{id}")
-     public String deleteImageGallery(@PathVariable int id) {
-          return imagegalleryService.deleteImageGallery(id);
-     }
-
      @PutMapping (path = "/images/{id}")
-     public void updateImageGallery(@RequestBody ImageGallery imageGallery, @PathVariable int id){
-          imagegalleryService.updateImageGallery(imageGallery, id);
+     public void updateImageGallery(@RequestBody ImageGallery imageGallery, @PathVariable int id, @RequestParam String title, @RequestParam String url, @RequestParam String description){
+          imagegalleryService.updateImageGallery(imageGallery, id, title, description, url);
 
      }
-     @GetMapping(path = "/images/{id}")
-    public ArrayList<ImageGallery> getAllImageGallery() {
-        return imagegalleryService.getAllImageGallery();
-    }
+
 }
