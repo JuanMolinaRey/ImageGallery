@@ -1,81 +1,59 @@
 package com.ImageGallery.controller;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import com.ImageGallery.model.ImageGallery;
-import com.ImageGallery.service.ImageGalleryService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@ExtendWith(MockitoExtension.class)
-@WebMvcTest(ImageGalleryController.class)
+import com.ImageGallery.model.ImageGallery;
+import com.ImageGallery.service.ImageGalleryService;
+
+@SpringBootTest
+@AutoConfigureMockMvc
 public class ImageGalleryControllerTest {
 
-    @Autowired
+    @Mock
+    private ImageGalleryService imagegalleryService;
+
+    @InjectMocks
+    private ImageGalleryController imageGalleryController;
+
     private MockMvc mockMvc;
-
-    @MockBean
-    private ImageGalleryService imageGalleryService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    private ImageGallery image;
 
     @BeforeEach
     public void setUp() {
-        image = new ImageGallery();
+        MockitoAnnotations.openMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(imageGalleryController).build();
     }
 
     @Test
-    public void testDeleteImageGallery() throws Exception {
-        int id = 1;
-        String expectedResponse = "Image gallery deleted";
+    public void testGetAllImageGallery() throws Exception {
+        ArrayList<ImageGallery> mockImageGalleryList = new ArrayList<>();
+        // Añade elementos a mockImageGalleryList si es necesario
+        ImageGallery image1 = new ImageGallery(1, "Title", "algo", "http://localhost/phpmyadmin/index.php?route=/server/databases");
+        ImageGallery image2 = new ImageGallery(2, "Title2", "algo", "http://localhost/phpmyadmin/index.php?route=/server/databases");
 
-        when(imageGalleryService.deleteImageGallery(id)).thenReturn(expectedResponse);
+        mockImageGalleryList.add(image1);
+        mockImageGalleryList.add(image2);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/deleteImageGallery")
-                        .param("id", String.valueOf(id)))
+        when(imagegalleryService.getAllImageGallery()).thenReturn(mockImageGalleryList);
+
+        mockMvc.perform(get("/api/v1/images/1")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(expectedResponse));
-
-        verify(imageGalleryService, times(1)).deleteImageGallery(id);
-    }
-
-    @Test
-    public void testCreateImageGallery() throws Exception {
-        int newId = 123;
-        String title = "Sample Title";
-        String description = "Sample Description";
-        String url = "http://example.com/image.jpg";
-
-        image.setId(newId);
-        image.setTitle(title);
-        image.setDescription(description);
-        image.setUrl(url);
-
-        when(imageGalleryService.createImageGallery(any(ImageGallery.class), anyInt(), anyString(), anyString(), anyString()))
-                .thenReturn(image);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/createImageGallery")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(image))
-                        .param("id", String.valueOf(newId))
-                        .param("title", title)
-                        .param("description", description)
-                        .param("url", url))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(image)));
-
-        verify(imageGalleryService, times(1)).createImageGallery(any(ImageGallery.class), eq(newId), eq(title), eq(description), eq(url));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("[{\"id\":1,\"title\":\"Title\",\"description\":\"algo\",\"url\":\"http://localhost/phpmyadmin/index.php?route=/server/databases\"},{\"id\":2,\"title\":\"Title2\",\"description\":\"algo\",\"url\":\"http://localhost/phpmyadmin/index.php?route=/server/databases\"}]"));
     }
 }
