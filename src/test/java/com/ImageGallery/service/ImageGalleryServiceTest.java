@@ -4,16 +4,20 @@ import com.ImageGallery.model.ImageGallery;
 import com.ImageGallery.repository.IImageGalleryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-
+@ExtendWith(MockitoExtension.class)
 public class ImageGalleryServiceTest {
 
     @InjectMocks
@@ -56,5 +60,18 @@ public class ImageGalleryServiceTest {
         String result = imageGalleryService.deleteImageGallery(id);
 
         assertEquals("An unexpected error occurred while trying to delete the image with ID: " + id, result);
+    }
+
+    @Test
+    public void testCreateImageGallery() {
+        int newId = 123;
+        ImageGallery image = new ImageGallery();
+        image.setId(newId);
+
+        when(iImageGalleryRepository.save(any(ImageGallery.class))).thenReturn(image);
+
+        ImageGallery createdImage = imageGalleryService.createImageGallery(new ImageGallery(), newId);
+
+        assertEquals(newId, createdImage.getId());
     }
 }
