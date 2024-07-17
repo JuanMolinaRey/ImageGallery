@@ -14,9 +14,18 @@ public class ImageGalleryService {
     static IImageGalleryRepository iImageGalleryRepository;
 
     public String deleteImageGallery(int id) {
-        return "Image deleted successfully";
+        try {
+            Optional<ImageGallery> imageGallery = iImageGalleryRepository.findById(id);
+            if (imageGallery.isPresent()) {
+                iImageGalleryRepository.deleteById(id);
+                return "You have deleted the image with ID: " + id;
+            } else {
+                return "The image with ID: " + id + " does not exist.";
+            }
+        } catch (Exception e) {
+            return "An unexpected error occurred while trying to delete the image with ID: " + id;
+        }
     }
-}
 
     public void updateImageGallery(ImageGallery image, int id) {
         image.setId(id);
