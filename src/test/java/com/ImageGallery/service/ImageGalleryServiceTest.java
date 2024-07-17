@@ -1,22 +1,23 @@
 package com.ImageGallery.service;
 
-import com.ImageGallery.model.ImageGallery;
-import com.ImageGallery.repository.IImageGalleryRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import com.ImageGallery.model.ImageGallery;
+import com.ImageGallery.repository.IImageGalleryRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class ImageGalleryServiceTest {
@@ -65,6 +66,7 @@ public class ImageGalleryServiceTest {
 
     @Test
 
+
     void testGetAllImageGallery() {
 
         // Create a list of ImageGallery objects
@@ -92,4 +94,15 @@ public class ImageGalleryServiceTest {
 
     }
 
+    public void testCreateImageGallery() {
+        int newId = 123;
+        ImageGallery image = new ImageGallery();
+        image.setId(newId);
+
+        when(iImageGalleryRepository.save(any(ImageGallery.class))).thenReturn(image);
+
+        ImageGallery createdImage = imageGalleryService.createImageGallery(new ImageGallery(), newId);
+
+        assertEquals(newId, createdImage.getId());
+    }
 }
