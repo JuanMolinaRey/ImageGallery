@@ -3,15 +3,7 @@ package com.ImageGallery.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ImageGallery.model.ImageGallery;
 import com.ImageGallery.service.ImageGalleryService;
@@ -34,9 +26,9 @@ public class ImageGalleryController {
         return imageGalleryService.createImageGallery(image);
     }
 
-    @PutMapping(path = "/images/{id}")
-    public void updateImageGallery(@RequestBody ImageGallery imageGallery, @PathVariable int id) {
-        imageGalleryService.updateImageGallery(imageGallery, id);
+    @PutMapping (path = "/images/{id}")
+    public void updateImageGallery(@RequestBody ImageGallery imageGallery, @PathVariable int id, @RequestParam String title, @RequestParam String url, @RequestParam String description){
+        imageGalleryService.updateImageGallery(imageGallery, id, title, description, url);
     }
 
     @DeleteMapping(path = "/images/{id}")
