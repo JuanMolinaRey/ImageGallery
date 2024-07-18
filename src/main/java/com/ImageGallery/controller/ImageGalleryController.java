@@ -19,29 +19,28 @@ import com.ImageGallery.service.ImageGalleryService;
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "*")
-
 public class ImageGalleryController {
+
     @Autowired
-    ImageGalleryService imagegalleryService;
+    private ImageGalleryService imageGalleryService;
 
-    @DeleteMapping(path = "/images/{id}")
-     public String deleteImageGallery(@PathVariable int id) {
-          return imagegalleryService.deleteImageGallery(id);
-     }
-
-     @PutMapping (path = "/images/{id}")
-     public void updateImageGallery(@RequestBody ImageGallery imageGallery, @PathVariable int id){
-          imagegalleryService.updateImageGallery(imageGallery, id);
-
-     }
-     @GetMapping(path = "/images/{id}")
+    @GetMapping
     public ArrayList<ImageGallery> getAllImageGallery() {
-        return imagegalleryService.getAllImageGallery();
+        return imageGalleryService.getAllImageGallery();
     }
 
-    @PostMapping("/images")
-public ImageGallery createImageGallery(@RequestBody ImageGallery image) {
-    return ImageGalleryService.createImageGallery(image);
+    @PostMapping(path = "/images")
+    public ImageGallery createImageGallery(@RequestBody ImageGallery image) {
+        return imageGalleryService.createImageGallery(image);
+    }
 
+    @PutMapping(path = "/images/{id}")
+    public void updateImageGallery(@RequestBody ImageGallery imageGallery, @PathVariable int id) {
+        imageGalleryService.updateImageGallery(imageGallery, id);
+    }
+
+    @DeleteMapping(path = "/images/{id}")
+    public void deleteImageGallery(@PathVariable int id) {
+        imageGalleryService.deleteImageGallery(id);
     }
 }
