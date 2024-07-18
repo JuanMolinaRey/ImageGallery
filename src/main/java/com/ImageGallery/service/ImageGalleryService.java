@@ -26,9 +26,12 @@ public class ImageGalleryService {
         iImageGalleryRepository.deleteById(id);
     }
 
-    public void updateImageGallery(ImageGallery image, int id) {
-        image.setId(id);
-        iImageGalleryRepository.save(image);
+    public void updateImageGallery(ImageGallery imageGallery, int id, String title, String description, String url) {
+        imageGallery.setId(id);
+        imageGallery.setTitle(title);
+        imageGallery.setDescription(description);
+        imageGallery.setUrl(url);
+        iImageGalleryRepository.save(imageGallery);
     }
 
     public ArrayList<ImageGallery> getAllImageGallery() {
